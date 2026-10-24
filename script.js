@@ -374,7 +374,7 @@ form.addEventListener("submit", async event => {
         method: "POST",
         headers: {
           ...headers,
-          Prefer: "return=minimal"
+          Prefer: "return=representation"
         },
         body: JSON.stringify(payload)
       }
