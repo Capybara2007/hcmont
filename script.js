@@ -417,13 +417,7 @@ if (savedAppointment?.id) {
     );
   }
 }
-  if (!emailResponse.ok) {
-    console.error(
-      "Greška pri slanju obaveštenja:",
-      await emailResponse.text()
-    );
-  }
-}
+ 
 
 if (!emailResponse.ok) {
   console.error(
