@@ -417,22 +417,14 @@ if (savedAppointment?.id) {
     );
   }
 }
- 
 
-if (!emailResponse.ok) {
-  console.error(
-    "Obaveštenje poslodavcu nije poslato:",
-    await emailResponse.text()
-  );
-}
+showMessage(
+  "Uspešno ste poslali zahtev! Termin je na čekanju dok ga servis ne potvrdi."
+);
 
-    showMessage(
-      "Uspešno ste poslali zahtev! Termin je na čekanju dok ga servis ne potvrdi."
-    );
-
-    form.reset();
-    dateInput.min = localDateString();
-    timeSelect.value = "";
+form.reset();
+dateInput.min = localDateString();
+timeSelect.value = "";
   } catch (error) {
     console.error(error);
     showMessage(
