@@ -399,6 +399,7 @@ const savedAppointments = await response.json();
 const savedAppointment = savedAppointments[0];
 
 if (savedAppointment?.id) {
+  console.log("Sačuvan termin:", savedAppointment);
   const emailResponse = await fetch(
     `${SUPABASE_URL}/functions/v1/obavesti-admina`,
     {
