@@ -395,6 +395,31 @@ form.addEventListener("submit", async event => {
       throw new Error("Zahtev nije sačuvan.");
     }
 
+const emailResponse = await fetch(
+  `${SUPABASE_URL}/functions/v1/obavesti-admina`,
+  {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      id: await (async () => {
+        const result = await fetch(
+          `${SUPABASE_URL}/rest/v1/termini?select=id&order=id.desc&limit=1`,
+          { headers }
+        );
+        const rows = await result.json();
+        return rows[0]?.id;
+      })()
+    })
+  }
+);
+
+if (!emailResponse.ok) {
+  console.error(
+    "Obaveštenje poslodavcu nije poslato:",
+    await emailResponse.text()
+  );
+}
+
     showMessage(
       "Uspešno ste poslali zahtev! Termin je na čekanju dok ga servis ne potvrdi."
     );
