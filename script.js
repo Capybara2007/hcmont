@@ -399,7 +399,6 @@ const savedAppointments = await response.json();
 const savedAppointment = savedAppointments[0];
 
 if (savedAppointment?.id) {
-  console.log("Sačuvan termin:", savedAppointment);
   const emailResponse = await fetch(
     `${SUPABASE_URL}/functions/v1/obavesti-admina`,
     {
@@ -411,6 +410,13 @@ if (savedAppointment?.id) {
     }
   );
 
+  if (!emailResponse.ok) {
+    console.error(
+      "Greška pri slanju obaveštenja:",
+      await emailResponse.text()
+    );
+  }
+}
   if (!emailResponse.ok) {
     console.error(
       "Greška pri slanju obaveštenja:",
