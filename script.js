@@ -395,23 +395,28 @@ form.addEventListener("submit", async event => {
       throw new Error("Zahtev nije sačuvan.");
     }
 
-const emailResponse = await fetch(
-  `${SUPABASE_URL}/functions/v1/obavesti-admina`,
-  {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      id: await (async () => {
-        const result = await fetch(
-          `${SUPABASE_URL}/rest/v1/termini?select=id&order=id.desc&limit=1`,
-          { headers }
-        );
-        const rows = await result.json();
-        return rows[0]?.id;
-      })()
-    })
+const savedAppointments = await response.json();
+const savedAppointment = savedAppointments[0];
+
+if (savedAppointment?.id) {
+  const emailResponse = await fetch(
+    `${SUPABASE_URL}/functions/v1/obavesti-admina`,
+    {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        id: savedAppointment.id
+      })
+    }
+  );
+
+  if (!emailResponse.ok) {
+    console.error(
+      "Greška pri slanju obaveštenja:",
+      await emailResponse.text()
+    );
   }
-);
+}
 
 if (!emailResponse.ok) {
   console.error(
